@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Mon profil {% if app.user.roles[0] == "ROLE_ADMIN" %}(ADMIN){% endif %}</h1>
+    <p>Email : {{ app.user.email }}</p>
+    <p>Nom : {{ app.user.fullName }}</p>
+    <div>
+        <a href="{{ path('profile_edit_infos') }}" class="btn btn-primary">Modifier mon profil</a>
+        <a href="{{ path('profile_edit_pass') }}" class="btn btn-primary">Modifier mon mot de passe</a>
+    </div>
+{% endblock %}

@@ -27,7 +27,7 @@
 				<li class="nav-item">
 					<a class="nav-link {{ (app.request.attributes.get('_route') == 'home') ? 'active' : '' }}" aria-current="page" href="{{ path('home') }}">Accueil</a>
 				</li>
-				{# {% if app.user %}
+				{% if app.user %}
 					<li class="nav-item">
 						<a class="nav-link {{ (app.request.attributes.get('_route') == 'profile_home') ? 'active' : '' }}" aria-current="page" href="{{ path('profile_home') }}">Profil</a>
 					</li>
@@ -36,7 +36,7 @@
 							<a class="bg-secondary nav-link {{ (app.request.attributes.get('_route') == 'admin_home') ? 'active' : '' }}" aria-current="page" href="{{ path('admin_home') }}">Admin</a>
 						</li>
 					{% endif %}
-				{% endif %} #}				
+				{% endif %}				
 			</ul>
 		</div>
 	</div>
