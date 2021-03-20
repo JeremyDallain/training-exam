@@ -2,7 +2,7 @@
 
 ### Les étapes à suivre pour récuperer et tester le projet :
 
-* `git clone projet`
+* `git clone url_projet`
 
 * Configurer la BDD dans un `.env.local` 
 
