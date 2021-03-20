@@ -4,4 +4,32 @@
 
 {% block body %}
     <h1>Administration</h1>
+
+    <h3>Gestion des utilisateurs</h3>
+    <p>La suppression d'un utilisateur entraine la suppression de ses articles.</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr class="{{ user.roles[0] == "ROLE_ADMIN" ? 'bg-warning' : '' }}">
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.fullName }}</td>
+                <td>{{ include('admin/_delete_form.html.twig') }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Pas d'utilisateurs</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

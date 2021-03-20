@@ -17,8 +17,11 @@
     <body>
         {% include "shared/_navbar.html.twig" %}
         {% include "shared/_alerts.html.twig" %}
-
-        <div class="container">        
+        {% if app.user %}
+            <span class="nav-link text-secondary">connecté en tant que : {{ app.user.email }} / {{ app.user.fullName }}</span>
+        {% endif %}
+        <div class="container">     
+               
             {% block body %}{% endblock %}
         </div>
 

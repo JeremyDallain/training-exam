@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,9 +19,25 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index()
+    public function index(UserRepository $userRepository)
     {
-        
-        return $this->render('admin/index.html.twig');
+        return $this->render('admin/index.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
+    }
+    
+    /**
+     * @Route("/{id}", name="delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, User $user, EntityManagerInterface $em)
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $em->remove($user);
+            $em->flush();
+
+            $this->addFlash('success', "L'utilisateur a bien été supprimé.");
+        }
+
+        return $this->redirectToRoute('admin_home');
     }
 }

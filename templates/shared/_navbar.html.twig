@@ -10,9 +10,14 @@
 					<li class="nav-item">
 						<a class="nav-link {{ (app.request.attributes.get('_route') == 'app_logout') ? 'active' : '' }}" aria-current="page" href="{{ path('app_logout') }}">Se déconnecter</a>				
 					</li>
-					<li>
-						<span class="nav-link text-light">connecté en tant que : {{ app.user.email }}</span>
+					<li class="nav-item">
+						<a class="nav-link {{ (app.request.attributes.get('_route') == 'profile_home') ? 'active' : '' }}" aria-current="page" href="{{ path('profile_home') }}">Mon profil</a>
 					</li>
+					{% if app.user.roles[0] == "ROLE_ADMIN" %}
+						<li class="nav-item">
+							<a class="bg-light text-success nav-link {{ (app.request.attributes.get('_route') == 'admin_home') ? 'active' : '' }}" aria-current="page" href="{{ path('admin_home') }}">Administration</a>
+						</li>
+					{% endif %}
 				{% else %}	
 					<li class="nav-item">
 						<a class="nav-link {{ (app.request.attributes.get('_route') == 'app_register') ? 'active' : '' }}" aria-current="page" href="{{ path('app_register') }}">S'inscrire</a>
@@ -29,17 +34,10 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link {{ (app.request.attributes.get('_route') == 'article_index') ? 'active' : '' }}" aria-current="page" href="{{ path('article_index') }}">Les articles</a>
-				</li>
-				{% if app.user %}
-					<li class="nav-item">
-						<a class="nav-link {{ (app.request.attributes.get('_route') == 'profile_home') ? 'active' : '' }}" aria-current="page" href="{{ path('profile_home') }}">Profil</a>
-					</li>
-					{% if app.user.roles[0] == "ROLE_ADMIN" %}
-						<li class="nav-item">
-							<a class="bg-secondary nav-link {{ (app.request.attributes.get('_route') == 'admin_home') ? 'active' : '' }}" aria-current="page" href="{{ path('admin_home') }}">Admin</a>
-						</li>
-					{% endif %}
-				{% endif %}				
+				</li>		
+				<li class="nav-item">
+					<a class="nav-link {{ (app.request.attributes.get('_route') == 'article_new') ? 'active' : '' }}" aria-current="page" href="{{ path('article_new') }}">Créer un article</a>
+				</li>		
 			</ul>
 		</div>
 	</div>

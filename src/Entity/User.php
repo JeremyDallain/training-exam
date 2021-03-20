@@ -50,7 +50,7 @@ class User implements UserInterface
     private $fullName;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user", cascade={"remove"})
      */
     private $articles;
 
