@@ -4,9 +4,9 @@
 
 * `git clone url_projet`
 
-* Configurer la BDD dans un `.env.local` 
+* Configurer la BDD dans un `.env.local`  (à créer)
 
-  >`DATABASE_URL="mysql://<identifiant>:<motDePasse>@127.0.0.1:3306/<nomDeLaBDD>?serverVersion=5.7"`
+  `DATABASE_URL="mysql://<identifiant>:<motDePasse>@127.0.0.1:3306/<nomDeLaBDD>?serverVersion=5.7"`
 
 * `composer install`
 
