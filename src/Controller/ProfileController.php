@@ -9,9 +9,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 /**
@@ -23,10 +25,12 @@ class ProfileController extends AbstractController
 
     protected $em;
     protected $encoder;
+    protected $tokenStorage;
 
-    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder) {
+    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, TokenStorageInterface $tokenStorage) {
         $this->em = $em;
         $this->encoder = $encoder;
+        $this->tokenStorage = $tokenStorage;
     }
     
     /**
@@ -98,5 +102,22 @@ class ProfileController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{id}", name="delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, User $user, SessionInterface $sessionInterface)
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
 
+            $this->tokenStorage->setToken(null);
+            $sessionInterface->invalidate();
+
+            $this->em->remove($user);
+            $this->em->flush();
+
+            $this->addFlash('success', "Vous avez bien supprimé votre propre compte");
+        }
+
+        return $this->redirectToRoute('home');
+    }
 }
