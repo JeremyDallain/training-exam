@@ -9,12 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 /**
  * @Route("/profile", name="profile_")
+ * @IsGranted("ROLE_USER")
  */
 class ProfileController extends AbstractController
 {
@@ -32,6 +34,7 @@ class ProfileController extends AbstractController
      */
     public function index()
     {
+
         return $this->render('profile/index.html.twig');
     }
 

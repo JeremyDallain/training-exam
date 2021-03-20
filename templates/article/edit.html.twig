@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'article{% endblock %}
+
+{% block body %}
+    <h1>Modifier l'article</h1>
+
+    <a class="btn btn-success mb-3" href="{{ path('article_index') }}">Revenir à la liste d'article</a>
+
+    {{ include('article/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+{% endblock %}
+

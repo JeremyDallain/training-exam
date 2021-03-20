@@ -27,6 +27,9 @@
 				<li class="nav-item">
 					<a class="nav-link {{ (app.request.attributes.get('_route') == 'home') ? 'active' : '' }}" aria-current="page" href="{{ path('home') }}">Accueil</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link {{ (app.request.attributes.get('_route') == 'article_index') ? 'active' : '' }}" aria-current="page" href="{{ path('article_index') }}">Les articles</a>
+				</li>
 				{% if app.user %}
 					<li class="nav-item">
 						<a class="nav-link {{ (app.request.attributes.get('_route') == 'profile_home') ? 'active' : '' }}" aria-current="page" href="{{ path('profile_home') }}">Profil</a>

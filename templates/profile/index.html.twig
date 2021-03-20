@@ -10,4 +10,27 @@
         <a href="{{ path('profile_edit_infos') }}" class="btn btn-primary">Modifier mon profil</a>
         <a href="{{ path('profile_edit_pass') }}" class="btn btn-primary">Modifier mon mot de passe</a>
     </div>
+    <hr>
+    {% if app.user.roles[0] != "ROLE_ADMIN" %}    
+        <h2>Mes articles</h2>
+        <a class="btn btn-success w-100" href="{{ path('article_new') }}">Créer un article</a>
+        {% for article in app.user.articles %}
+            <div class="card my-5 text-center">
+                <div class="card-body">
+                    <h3 class="card-title">Article n°{{ article.id }} : {{ article.title }}</h3>
+                    <h6 class="card-subtitle mb-2 text-muted">Créé le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</h6>
+                    <p class="card-text">{{ article.content }}</p>
+                    <div>
+                        <a class="btn btn-primary mb-4" href="{{ path('article_show', {'id': article.id}) }}" target="_blank"><i class="far fa-eye"></i> Voir l'article</a>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-warning me-2" href="{{ path('article_edit', {'id': article.id}) }}"><i class="far fa-edit"></i> Modifier</a>
+                        {{ include('article/_delete_form.html.twig') }}
+                    </div>     
+                </div>
+            </div>   
+        {% else %}
+            <p>Pas d'articles</p>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

@@ -15,8 +15,6 @@ class MainController extends AbstractController
     {
         // $this->addFlash('success', 'test flash');
 
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
-        ]);
+        return $this->render('main/index.html.twig');
     }
 }

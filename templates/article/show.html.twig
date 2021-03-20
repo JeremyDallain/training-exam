@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article: {{ article.title }}{% endblock %}
+
+{% block body %}
+    <h1>Page de l'article : {{ article.title }}</h1>
+
+    <a class="btn btn-success" href="{{ path('article_index') }}">Revenir à la liste d'article</a>
+
+    <div class="card my-5 text-center">
+        <div class="card-body">
+            <h3 class="card-title">Article n°{{ article.id }} : {{ article.title }}</h3>
+            <h6 class="card-subtitle mb-2 text-muted">Créé le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} par {{ article.user.fullName }}</h6>
+            <p class="card-text">{{ article.content }}</p>
+            {% if app.user and app.user.id == article.user.id or app.user.roles[0] == "ROLE_ADMIN" %}
+                <div class="d-flex justify-content-center">
+                    {% if app.user and app.user.id == article.user.id %}
+                        <div class="btn me-2">
+                            <strong>C'est votre article</strong>
+                        </div>                    
+                    {% endif %}
+                    <a class="btn btn-warning me-2" href="{{ path('article_edit', {'id': article.id}) }}"><i class="far fa-edit"></i> Modifier</a>
+                    {{ include('article/_delete_form.html.twig') }}
+                </div>       
+                
+            {% endif %}
+        </div>
+    </div>    
+{% endblock %}
