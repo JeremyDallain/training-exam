@@ -8,7 +8,6 @@ use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,8 +29,12 @@ class ArticleController extends AbstractController
      */
     public function index(ArticleRepository $articleRepository)
     {
+        // du plus au moins récent
+        $articles = $articleRepository->findBy([], ['createdAt' => 'DESC']);
+
+
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articles,
         ]);
     }
 
@@ -68,8 +71,15 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}", name="article_show", methods={"GET"})
      */
-    public function show(Article $article)
+    public function show($id, ArticleRepository $articleRepository)
     {
+        $article = $articleRepository->find($id);
+
+        if (!$article) {
+            $this->addFlash('danger', "L'article demandé n'existe pas.");
+            return $this->redirectToRoute('article_index');
+        }
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
         ]);
@@ -78,8 +88,14 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article): Response
+    public function edit(Request $request, $id, ArticleRepository $articleRepository)
     {
+        $article = $articleRepository->find($id);
+
+        if (!$article) {
+            $this->addFlash('danger', "L'article demandé n'existe pas.");
+            return $this->redirectToRoute('article_index');
+        }
 
         if ($article->getUser() !== $this->getUser() && !in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
             $this->addFlash('danger', "Vous n'etes pas le proprietaire de cet article, vous ne pouvez pas l'éditer !");
@@ -105,8 +121,15 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}", name="article_delete", methods={"POST"})
      */
-    public function delete(Request $request, Article $article)
+    public function delete(Request $request, $id, ArticleRepository $articleRepository)
     {
+
+        $article = $articleRepository->find($id);
+
+        if (!$article) {
+            $this->addFlash('danger', "L'article demandé n'existe pas.");
+            return $this->redirectToRoute('article_index');
+        }
 
         if ($article->getUser() !== $this->getUser() && !in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
             $this->addFlash('danger', "Vous n'êtes pas le proprietaire de cet article, vous ne pouvez pas le supprimer !");

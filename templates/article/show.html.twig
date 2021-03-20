@@ -7,12 +7,12 @@
 
     <a class="btn btn-success" href="{{ path('article_index') }}">Revenir à la liste d'article</a>
 
-    <div class="card my-5 text-center">
+    <div class="card my-5">
         <div class="card-body">
-            <h3 class="card-title">Article n°{{ article.id }} : {{ article.title }}</h3>
-            <h6 class="card-subtitle mb-2 text-muted">Créé le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} par {{ article.user.fullName }}</h6>
-            <p class="card-text">{{ article.content }}</p>
-            {% if app.user and app.user.id == article.user.id or app.user.roles[0] == "ROLE_ADMIN" %}
+            <h3 class="card-title text-center">Article n°{{ article.id }} : {{ article.title }}</h3>
+            <h6 class="card-subtitle mb-2 text-muted text-center">Créé le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} par {{ article.user.fullName }}</h6>
+            <p class="card-text">{{ article.content | raw }}</p>
+            {% if app.user and (app.user.id == article.user.id or app.user.roles[0] == "ROLE_ADMIN") %}
                 <div class="d-flex justify-content-center">
                     {% if app.user and app.user.id == article.user.id %}
                         <div class="btn me-2">
