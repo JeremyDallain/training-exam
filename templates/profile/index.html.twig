@@ -15,11 +15,11 @@
         <h2>Mes articles</h2>
         <a class="btn btn-success w-100" href="{{ path('article_new') }}">Créer un article</a>
         {% for article in app.user.articles %}
-            <div class="card my-5 text-center">
+            <div class="card my-5">
                 <div class="card-body">
-                    <h3 class="card-title">Article n°{{ article.id }} : {{ article.title }}</h3>
-                    <h6 class="card-subtitle mb-2 text-muted">Créé le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</h6>
-                    <p class="card-text">{{ article.content }}</p>
+                    <h3 class="card-title text-center">Article n°{{ article.id }} : {{ article.title }}</h3>
+                    <h6 class="card-subtitle mb-2 text-muted text-center">Créé le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</h6>
+                    <p class="card-text">{{ article.content | u.truncate(1000, "...") | raw }}</p>
                     <div>
                         <a class="btn btn-primary mb-4" href="{{ path('article_show', {'id': article.id}) }}" target="_blank"><i class="far fa-eye"></i> Voir l'article</a>
                     </div>

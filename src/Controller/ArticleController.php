@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @Route("/article")
@@ -27,11 +28,16 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="article_index", methods={"GET"})
      */
-    public function index(ArticleRepository $articleRepository)
+    public function index(PaginatorInterface $paginator, Request $request, ArticleRepository $articleRepository)
     {
         // du plus au moins récent
-        $articles = $articleRepository->findBy([], ['createdAt' => 'DESC']);
+        $datas = $articleRepository->findBy([], ['createdAt' => 'DESC']);
 
+        $articles = $paginator->paginate(
+            $datas, // mes datas
+            $request->query->getInt('page', 1), // numero de la page en cours
+            5
+        );
 
         return $this->render('article/index.html.twig', [
             'articles' => $articles,

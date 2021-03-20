@@ -7,6 +7,7 @@
 
     <a class="btn btn-success w-100" href="{{ path('article_new') }}">Créer un article</a>
 
+    
     {% for article in articles %}
         <div class="card my-5">
             <div class="card-body">
@@ -31,6 +32,8 @@
     {% else %}
         <p>Pas d'articles</p>
     {% endfor %}
-    
+    <div class="d-flex justify-content-center">    
+        {{ knp_pagination_render(articles) }}   
+    </div>
     
 {% endblock %}

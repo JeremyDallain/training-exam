@@ -13,8 +13,7 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-        // $this->addFlash('success', 'test flash');
-
+        
         return $this->render('main/index.html.twig');
     }
 }
